@@ -4,7 +4,7 @@ from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 
 # CSV fájl beolvasása
-df = pd.read_csv("python/csv making.csv")  # vagy az elérési út teljesen megadva
+df = pd.read_csv("python/csv making.csv")  # elérési útvonal
 
 max = df["Y"].max()
 
@@ -18,7 +18,7 @@ ax.set_xlabel("X1")
 ax.set_ylabel("X4")
 ax.set_zlabel("Y")
 ax.set_title("3D pontdiagram: X1 - X4 - Y")
-# Példa: csak X1 = 240 és 280 között, X4 = 300 és 350 között jelenjenek meg az adatok
+# Példa: csak X1 = 50 és 300 között, X4 = 200 és 1000 között jelenjenek meg az adatok
 ax.set_xlim(50, 300)
 ax.set_ylim(200, 1000)
 ax.set_zlim(1200, 1500)
@@ -32,16 +32,6 @@ plt.figure(figsize=(8, 6))
 for osztaly, marker in [('Terv', 'o'), ('Gradiens', 'x')]:
     subset = df[df["Osztály"] == osztaly]
     
-    # Szegélyszín beállítása
-    if osztaly == "Terv":
-        edgecolors = ['white'] * len(subset)
-    elif osztaly == "Gradiens":
-        # piros árnyalat Y érték alapján
-        edgecolors = [
-            (1, np.clip((y - 900) / (max - 900), 0, 1) * 0.3, np.clip((y - 900) / (max - 900), 0, 1) * 0.3)
-            for y in subset["Y"]
-        ]
-    
     plt.scatter(
         subset["X1"], subset["X4"],
         c=subset["Y"],
@@ -49,7 +39,6 @@ for osztaly, marker in [('Terv', 'o'), ('Gradiens', 'x')]:
         vmin=900,
         vmax=max,
         s=100,
-        edgecolors=edgecolors,
         marker=marker,
         label=osztaly
     )
